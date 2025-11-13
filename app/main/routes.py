@@ -4,3 +4,8 @@ from . import main_bp
 @main_bp.route("/")
 def index():
     return render_template("main/index.html")
+
+@main_bp.route("/feature")
+def feature():
+    return render_template("main/feature.html")
+    
