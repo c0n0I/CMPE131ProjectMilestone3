@@ -1,8 +1,9 @@
 Installation:
-1. Create a virtual environment
+1. Clone repository
+2. Create and activate virtual environment
 
 Run the App:
-1. Start the server
+1. Start the server (python run.py)
 2. Open in browser
 
 Screenshots:
