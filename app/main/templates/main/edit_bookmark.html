@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Edit Bookmark</h2>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div>
+        {{ form.title.label }}<br>
+        {{ form.title(size=40) }}
+        {% if form.title.errors %}
+            <ul>
+                {% for error in form.title.errors %}
+                    <li style="color:red;">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    <div>
+        {{ form.url.label }}<br>
+        {{ form.url(size=40) }}
+        {% if form.url.errors %}
+            <ul>
+                {% for error in form.url.errors %}
+                    <li style="color:red;">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+
+    {{ form.submit(value="Update Bookmark") }}
+</form>
+
+{% endblock %}
