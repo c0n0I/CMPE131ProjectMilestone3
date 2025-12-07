@@ -3,17 +3,23 @@
 {% block content %}
 <h1>Your Bookmarks</h1>
 
+<a href="{{ url_for('main.add_bookmark') }}" style="display:inline-block; margin-bottom:15px;">
+    + Add Bookmark
+</a>
+
+<hr>
+
 {% if bookmarks %}
     <ul>
-        {% for b in bookmarks %}
+        {% for bm in bookmarks %}
             <li>
-                {{ b.title }} —
-                <a href="{{ b.url }}" target="_blank">Open</a>
+                <strong>{{ bm.title }}</strong>
+                — <a href="{{ bm.url }}" target="_blank">Open</a>
             </li>
         {% endfor %}
     </ul>
 {% else %}
-    <p>No bookmarks yet.</p>
+    <p>You have no bookmarks yet.</p>
 {% endif %}
 
 {% endblock %}
