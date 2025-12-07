@@ -9,15 +9,45 @@
 
 <hr>
 
-{% if bookmarks %}
+{% for folder in folders %}
+    <h2>{{ folder.name }}</h2>
+
+    {% if folder.bookmarks %}
+        <ul>
+        {% for bm in folder.bookmarks %}
+            <li>
+                <strong>{{ bm.title }}</strong>
+                — <a href="{{ bm.url }}" target="_blank">Open</a>
+                — <a href="{{ url_for('main.edit_bookmark', bookmark_id=bm.id) }}">Edit</a>
+
+                <form action="{{ url_for('main.delete_bookmark', bookmark_id=bm.id) }}"
+                      method="POST"
+                      style="display:inline;">
+                    <button type="submit" style="color:red; border:none; background:none; cursor:pointer;">
+                        Delete
+                    </button>
+                </form>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p><i>No bookmarks in this folder.</i></p>
+    {% endif %}
+
+    <hr>
+{% endfor %}
+
+<h2>Unorganized Bookmarks</h2>
+
+{% if unfiled_bookmarks %}
 <ul>
-    {% for bm in bookmarks %}
+    {% for bm in unfiled_bookmarks %}
         <li>
             <strong>{{ bm.title }}</strong>
             — <a href="{{ bm.url }}" target="_blank">Open</a>
             — <a href="{{ url_for('main.edit_bookmark', bookmark_id=bm.id) }}">Edit</a>
 
-            <form action="{{ url_for('main.delete_bookmark', bookmark_id=bm.id) }}" 
+            <form action="{{ url_for('main.delete_bookmark', bookmark_id=bm.id) }}"
                   method="POST"
                   style="display:inline;">
                 <button type="submit" style="color:red; border:none; background:none; cursor:pointer;">
@@ -27,9 +57,8 @@
         </li>
     {% endfor %}
 </ul>
-
 {% else %}
-    <p>You have no bookmarks yet.</p>
+    <p><i>No unorganized bookmarks.</i></p>
 {% endif %}
 
 {% endblock %}
