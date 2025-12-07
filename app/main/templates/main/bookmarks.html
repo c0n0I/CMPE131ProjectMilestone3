@@ -10,15 +10,24 @@
 <hr>
 
 {% if bookmarks %}
-    <ul>
+<ul>
     {% for bm in bookmarks %}
         <li>
             <strong>{{ bm.title }}</strong>
             — <a href="{{ bm.url }}" target="_blank">Open</a>
             — <a href="{{ url_for('main.edit_bookmark', bookmark_id=bm.id) }}">Edit</a>
+
+            <form action="{{ url_for('main.delete_bookmark', bookmark_id=bm.id) }}" 
+                  method="POST"
+                  style="display:inline;">
+                <button type="submit" style="color:red; border:none; background:none; cursor:pointer;">
+                    Delete
+                </button>
+            </form>
         </li>
     {% endfor %}
-    </ul>
+</ul>
+
 {% else %}
     <p>You have no bookmarks yet.</p>
 {% endif %}
