@@ -2,8 +2,8 @@ from flask import render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 
 from . import main_bp
-from app.forms import BookmarkForm
-from app.models import Bookmark, db
+from app.forms import BookmarkForm, FolderForm
+from app.models import Bookmark, Folder, db
 
 @main_bp.route("/")
 def index():
@@ -73,3 +73,25 @@ def delete_bookmark(bookmark_id):
     flash("Bookmark deleted successfully!", "success")
     return redirect(url_for("main.bookmarks"))
 
+@main_bp.route("/folders")
+@login_required
+def folders():
+    user_folders = Folder.query.filter_by(user_id=current_user.id).all()
+    return render_template("main/folders.html", folders=user_folders)
+
+
+@main_bp.route("/folders/add", methods=["GET", "POST"])
+@login_required
+def add_folder():
+    form = FolderForm()
+    if form.validate_on_submit():
+        new_folder = Folder(
+            name=form.name.data,
+            user_id=current_user.id
+        )
+        db.session.add(new_folder)
+        db.session.commit()
+        flash("Folder created successfully!", "success")
+        return redirect(url_for("main.folders"))
+
+    return render_template("main/add_folder.html", form=form)
