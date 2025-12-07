@@ -12,7 +12,7 @@ def create_app():
 
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "auth.login"   
+    login_manager.login_view = "auth.login"
 
     from app import models
 
@@ -24,5 +24,13 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+        # AUTO-CREATE DEFAULT TEST USER
+        from app.models import User
+        if User.query.count() == 0:
+            test_user = User(username="testuser")
+            db.session.add(test_user)
+            db.session.commit()
+            print("Created default user: testuser")
 
     return app
