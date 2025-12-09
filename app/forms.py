@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, URL, Length
 
 
@@ -37,3 +37,24 @@ class FolderForm(FlaskForm):
     )
     submit = SubmitField("Create Folder")
 
+class CourseForm(FlaskForm):
+    title = StringField(
+        "Course Title",
+        validators=[
+            DataRequired(message="A course title is required."),
+            Length(min=2, max = 255)
+        ]
+    )
+    description = TextAreaField("Description")
+    submit = SubmitField("Create Course")
+
+class AssignmentForm(FlaskForm):
+    title = StringField(
+        "Assingment Title",
+        validators=[
+            DataRequired(message="An assignment title is required."),
+            Length(min=2, max=255)
+        ]
+    )
+    description = TextAreaField("Description")
+    submit = SubmitField("Create Assignment")
