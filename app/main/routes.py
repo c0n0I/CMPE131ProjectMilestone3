@@ -158,7 +158,7 @@ def new_course():
 @login_required
 def course_detail(course_id):
     course = Course.query.get_or_404(course_id)
-    assignments = Assignmemt.query.filter_by(course_id=course.id).all()
+    assignments = Assignment.query.filter_by(course_id=course.id).all()
     return render_template(
         "main/course_detail.html",
         course=course,
