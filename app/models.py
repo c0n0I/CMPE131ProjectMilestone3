@@ -26,3 +26,17 @@ class Folder(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
     bookmarks = db.relationship("Bookmark", backref="folder", lazy=True)
+
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    instructor_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    assignments = db.relationship("Assignment", backref="course", lazy=True)
+
+class Assignment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_id = db.Column(db.Integer, db.ForeignKey("course.id"), nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text, nullable=True)
