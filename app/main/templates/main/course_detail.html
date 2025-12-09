@@ -12,7 +12,7 @@
 
         <form method="POST"
             action="{{ url_for('main.delete_course', course_id=course.id) }}"
-                style="display:inline;">
+            style="display:inline;">
             <button type="submit" onclick="return confirm('Delete course?');">
                 Delete Course
             </button>
@@ -20,7 +20,17 @@
     {% endif %}
     <ul>
         {% for assignment in assignments %}
-            <li>{{ assignment.title }}</li>
+            <li>{{ assignment.title }}
+                {% if current_user.role == "instructor" and course.instructor_id == current_user.id %}
+                    <form method="POST"
+                        action="{{ url_for('main.delete_assignment', assignment_id=assignment.id) }}"
+                        style="display:inline;">
+                        <button type="submit" onclick="return confirm('Delete this assignment?');">
+                            Delete Assignment
+                        </button>
+                    </form>
+                {% endif %}
+            </li>
         {% else %}
             <li>No assignments yet.</li>
         {% endfor %}
