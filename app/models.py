@@ -39,7 +39,7 @@ class Course(db.Model):
         "Assignment", 
         backref="course", 
         lazy=True,
-        cascade="al'', delete-orphan"
+        cascade="all, delete-orphan"
     )
 
 class Assignment(db.Model):
