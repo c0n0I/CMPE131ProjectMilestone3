@@ -35,8 +35,12 @@ class Course(db.Model):
     description = db.Column(db.Text, nullable=True)
     instructor_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
 
-    assignments = db.relationship("Assignment", backref="course", lazy=True)
-
+    assignments = db.relationship(
+        "Assignment", 
+        backref="course", 
+        lazy=True
+        cascade="al'', delete-orphan"
+    )
 
 class Assignment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
