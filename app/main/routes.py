@@ -1,9 +1,9 @@
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from flask_login import login_required, current_user
 
 from . import main_bp
-from app.forms import BookmarkForm, FolderForm
-from app.models import Bookmark, Folder, db
+from app.forms import BookmarkForm, FolderForm, CourseForm, AssignmentForm
+from app.models import Bookmark, Folder, Course, Assignment, db
 
 from app.models import Bookmark, Folder
 from flask import request
@@ -131,3 +131,58 @@ def delete_folder(folder_id):
 
     flash("Folder deleted successfully!", "success")
     return redirect(url_for('main.folders'))
+
+@main_bp.route("/courses")
+@login_required
+def courses():
+    all_courses = Course.query.all()
+    return render_template("main/courses.html", courses=all_courses)
+
+@main_bp.route("/courses/new", methods=["GET", "POST"])
+@login_required
+def new_course():
+    form = CourseForm()
+    if form.validate_on_submit():
+        course = Course(
+            title=form.title.data,
+            description=form.description.data,
+            instructor_id=current_user.id
+        )
+        db.session.add(course)
+        db.session.commit()
+        flash("Course created.", "success")
+        return redirect(url_for("main.course_detail", course_id=course.id))
+    return render_template("main/new_course.html", form=form)
+
+@main_bp.route("/courses/<int:course_id>")
+@login_required
+def course_detail(course_id):
+    course = Course.query.get_or_404(course_id)
+    Assignment = Assignmemt.query.filter_by(course_id=course.id).all()
+    return render_template(
+        "main/course_detail.html",
+        course=course,
+        assignments=assignments
+    )
+
+@main_bp.route("/courses/<int:course_id>/assignments/new", methods=["GET", "POST"])
+@login_required
+def new_assignment(course_id):
+    course = Course.query.get_or_404(course_id)
+
+    if course.instructor_id != current_user.id:
+        flash("Only the course instructor can modify assignments.", "danger")
+        return redirect(url_for("main.course_detail", course_id=course.id))
+
+    form = AssignmentForm()
+    if form.validate_on_submit():
+        assignment = Assignmemt(
+            course_id=course.id,
+            title=form.title.data,
+            description=form.description.data
+        )
+        db.session.add(assignment)
+        db.session.commit()
+        flash("Assignment created!", "success")
+        return redirect(url_for("main.course_detail", course_id=course.id))
+    return render_template("main/new_assignment.html", form=form, course=course)
