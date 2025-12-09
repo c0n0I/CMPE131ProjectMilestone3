@@ -19,7 +19,8 @@ Run the App:
    
      http://127.0.0.1:5000/
 
-4. Default login user is created in database for testing
+4. Default user is created in database to test the application
+
      Enter "testuser" in username to login
 
 Screenshots:
