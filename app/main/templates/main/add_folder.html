@@ -1,20 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Create New Folder</h2>
+<div class="card">
+    <h1>Create New Folder</h1>
 
-<form method="POST">
-    {{ form.hidden_tag() }}
+    <form method="POST">
+        {{ form.hidden_tag() }}
 
-    <p>
-        {{ form.name.label }}<br>
-        {{ form.name(size=40) }}
-        {% for error in form.name.errors %}
-            <span style="color:red;">{{ error }}</span>
-        {% endfor %}
-    </p>
+        <!-- Folder Name -->
+        <div>
+            {{ form.name.label }}
+            {{ form.name(class="form-input") }}
 
-    <p>{{ form.submit() }}</p>
-</form>
+            {% if form.name.errors %}
+                <ul>
+                    {% for error in form.name.errors %}
+                        <li style="color:#e74c3c;">{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
+        <!-- Actions -->
+        <div style="margin-top: 15px;">
+            {{ form.submit(class="btn btn-primary") }}
+            <a href="{{ url_for('main.folders') }}" class="btn btn-secondary">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
 {% endblock %}
