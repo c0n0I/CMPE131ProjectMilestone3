@@ -25,12 +25,26 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-        # AUTO-CREATE DEFAULT TEST USER
+        # ------------------------------------
+        # AUTO-CREATE DEFAULT USERS FOR DEMO
+        # ------------------------------------
         from app.models import User
+
         if User.query.count() == 0:
-            test_user = User(username="testuser")
-            db.session.add(test_user)
+            student = User(
+                username="testuser",
+                role="student"
+            )
+            instructor = User(
+                username="instructor",
+                role="instructor"
+            )
+
+            db.session.add_all([student, instructor])
             db.session.commit()
-            print("Created default user: testuser")
+
+            print("Created default users:")
+            print(" - testuser (student)")
+            print(" - instructor (instructor)")
 
     return app
