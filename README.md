@@ -31,7 +31,7 @@ Home Page
 Login Page
 <img width="2559" height="1439" alt="image" src="https://github.com/user-attachments/assets/519508f0-b4ee-4628-a45e-615bf648be56" />
 
-Logged In Home Page (Student)
+Logged In Home Page 
 <img width="2559" height="1439" alt="image" src="https://github.com/user-attachments/assets/d0ccc07a-62e1-4c7b-900b-4085c8ee1623" />
 
 Bookmarks Page
